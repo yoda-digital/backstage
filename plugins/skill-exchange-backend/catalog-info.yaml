@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-skill-exchange-backend
+  title: '@backstage/plugin-skill-exchange-backend'
+  description: Backend for the skill-exchange plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

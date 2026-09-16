@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-data-experience-backend
+  title: '@backstage/plugin-data-experience-backend'
+  description: Backend for the data-experience plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

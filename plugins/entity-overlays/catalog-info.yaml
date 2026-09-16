@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-entity-overlays
+  title: '@backstage/plugin-entity-overlays'
+  description: A Backstage plugin that lets you view and edit entity overlays
+spec:
+  lifecycle: experimental
+  type: backstage-frontend-plugin
+  owner: maintainers

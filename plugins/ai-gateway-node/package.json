@@ -1,0 +1,49 @@
+{
+  "name": "@backstage/plugin-ai-gateway-node",
+  "version": "0.1.0",
+  "description": "Node.js library for the ai-gateway plugin",
+  "backstage": {
+    "role": "node-library",
+    "pluginId": "ai-gateway",
+    "pluginPackages": [
+      "@backstage/plugin-ai-gateway",
+      "@backstage/plugin-ai-gateway-backend",
+      "@backstage/plugin-ai-gateway-common",
+      "@backstage/plugin-ai-gateway-node"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "homepage": "https://backstage.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/ai-gateway-node"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "start": "backstage-cli package start",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/plugin-ai-gateway-common": "workspace:^"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.36.6"
+  }
+}

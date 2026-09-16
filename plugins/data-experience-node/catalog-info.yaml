@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-data-experience-node
+  title: '@backstage/plugin-data-experience-node'
+  description: Node.js library for the data-experience plugin
+spec:
+  lifecycle: experimental
+  type: backstage-node-library
+  owner: maintainers

@@ -1,0 +1,45 @@
+{
+  "name": "@backstage/plugin-ai-explorer-common",
+  "version": "0.1.0",
+  "description": "Common types and utilities for the ai-explorer plugin",
+  "backstage": {
+    "role": "common-library",
+    "pluginId": "ai-explorer",
+    "pluginPackages": [
+      "@backstage/plugin-ai-explorer",
+      "@backstage/plugin-ai-explorer-backend",
+      "@backstage/plugin-ai-explorer-common"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "module": "dist/index.esm.js",
+    "types": "dist/index.d.ts"
+  },
+  "homepage": "https://backstage.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/ai-explorer-common"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "start": "backstage-cli package start",
+    "test": "backstage-cli package test"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.36.6"
+  }
+}

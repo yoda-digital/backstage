@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-soundcheck-backend
+  title: '@backstage/plugin-soundcheck-backend'
+  description: >-
+    The Backend backend for the soundcheck plugin, providing the quality and
+    compliance engine
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

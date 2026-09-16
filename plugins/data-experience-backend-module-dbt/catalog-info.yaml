@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-data-experience-backend-module-dbt
+  title: '@backstage/plugin-data-experience-backend-module-dbt'
+  description: The dbt backend module for the data-experience plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin-module
+  owner: maintainers

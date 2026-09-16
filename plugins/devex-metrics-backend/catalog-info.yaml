@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-devex-metrics-backend
+  title: '@backstage/plugin-devex-metrics-backend'
+  description: Backend for the devex-metrics plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

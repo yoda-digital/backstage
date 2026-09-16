@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-fleetshift
+  title: '@backstage/plugin-fleetshift'
+  description: The fleetshift plugin for Backstage
+spec:
+  lifecycle: experimental
+  type: backstage-frontend-plugin
+  owner: maintainers

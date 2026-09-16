@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-rbac-common
+  title: '@backstage/plugin-rbac-common'
+  description: Common types and permissions for the RBAC plugin
+spec:
+  lifecycle: experimental
+  type: backstage-common-library
+  owner: maintainers

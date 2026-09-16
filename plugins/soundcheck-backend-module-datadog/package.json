@@ -1,0 +1,55 @@
+{
+  "name": "@backstage/plugin-soundcheck-backend-module-datadog",
+  "version": "0.1.0",
+  "description": "The datadog-fact-collector module for the soundcheck backend",
+  "backstage": {
+    "role": "backend-plugin-module",
+    "pluginId": "soundcheck",
+    "pluginPackages": [
+      "@backstage/plugin-soundcheck",
+      "@backstage/plugin-soundcheck-backend",
+      "@backstage/plugin-soundcheck-common",
+      "@backstage/plugin-soundcheck-node"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "keywords": [
+    "backstage"
+  ],
+  "homepage": "https://backstage.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/soundcheck-backend-module-datadog"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/config": "^1.3.9",
+    "@backstage/plugin-catalog-node": "^2.2.5",
+    "@backstage/plugin-soundcheck-common": "workspace:^",
+    "@backstage/plugin-soundcheck-node": "workspace:^"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.36.6"
+  },
+  "configSchema": "config.d.ts"
+}

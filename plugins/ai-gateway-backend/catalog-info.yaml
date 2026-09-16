@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-gateway-backend
+  title: '@backstage/plugin-ai-gateway-backend'
+  description: >-
+    The backend for the ai-gateway plugin, providing a multi-provider AI
+    proxy with model routing and usage tracking
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

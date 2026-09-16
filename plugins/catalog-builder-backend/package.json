@@ -1,0 +1,67 @@
+{
+  "name": "@backstage/plugin-catalog-builder-backend",
+  "version": "0.1.0",
+  "description": "Backend for the catalog-builder plugin",
+  "backstage": {
+    "role": "backend-plugin",
+    "pluginId": "catalog-builder",
+    "pluginPackages": [
+      "@backstage/plugin-catalog-builder",
+      "@backstage/plugin-catalog-builder-backend"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "keywords": [
+    "backstage"
+  ],
+  "homepage": "https://backstage.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/catalog-builder-backend"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist",
+    "migrations"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "start": "backstage-cli package start",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-defaults": "^0.18.0",
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/catalog-client": "^1.16.2",
+    "@backstage/catalog-model": "^1.10.0",
+    "@backstage/config": "^1.3.9",
+    "@backstage/errors": "^1.3.1",
+    "@backstage/integration": "^2.1.2",
+    "@backstage/plugin-catalog-common": "^1.2.0",
+    "@backstage/plugin-catalog-node": "^2.2.5",
+    "@backstage/plugin-events-node": "^0.4.26",
+    "express": "^4.22.0",
+    "express-promise-router": "^4.1.0",
+    "knex": "^3.0.0"
+  },
+  "devDependencies": {
+    "@backstage/backend-test-utils": "^1.11.7",
+    "@backstage/cli": "^0.36.6",
+    "@types/express": "^4.17.6",
+    "@types/supertest": "^2.0.12",
+    "supertest": "^6.2.4"
+  },
+  "configSchema": "config.d.ts"
+}

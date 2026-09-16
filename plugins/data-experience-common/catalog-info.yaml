@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-data-experience-common
+  title: '@backstage/plugin-data-experience-common'
+  description: Common functionalities for the data-experience plugin
+spec:
+  lifecycle: experimental
+  type: backstage-common-library
+  owner: maintainers

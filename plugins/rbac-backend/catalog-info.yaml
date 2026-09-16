@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-rbac-backend
+  title: '@backstage/plugin-rbac-backend'
+  description: Backend plugin for RBAC policy engine and role management
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

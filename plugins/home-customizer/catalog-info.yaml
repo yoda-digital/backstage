@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-home-customizer
+  title: '@backstage/plugin-home-customizer'
+  description: The home-customizer plugin for Backstage
+spec:
+  lifecycle: experimental
+  type: backstage-frontend-plugin
+  owner: home-maintainers

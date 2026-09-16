@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-assistant-backend
+  title: '@backstage/plugin-ai-assistant-backend'
+  description: >-
+    The backend for the ai-assistant plugin, providing a RAG pipeline,
+    conversation management, and a configurable modes engine
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

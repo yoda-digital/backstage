@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-audit-log-backend
+  title: '@backstage/plugin-audit-log-backend'
+  description: Backend for the audit-log plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

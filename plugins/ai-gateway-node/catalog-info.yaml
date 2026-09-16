@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-gateway-node
+  title: '@backstage/plugin-ai-gateway-node'
+  description: Node.js library for the ai-gateway plugin
+spec:
+  lifecycle: experimental
+  type: backstage-node-library
+  owner: maintainers

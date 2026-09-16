@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-gateway-common
+  title: '@backstage/plugin-ai-gateway-common'
+  description: Common types and utilities for the ai-gateway plugin
+spec:
+  lifecycle: experimental
+  type: backstage-common-library
+  owner: maintainers

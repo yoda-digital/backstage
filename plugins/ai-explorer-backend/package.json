@@ -1,0 +1,60 @@
+{
+  "name": "@backstage/plugin-ai-explorer-backend",
+  "version": "0.1.0",
+  "description": "Backend for the ai-explorer plugin",
+  "backstage": {
+    "role": "backend-plugin",
+    "pluginId": "ai-explorer",
+    "pluginPackages": [
+      "@backstage/plugin-ai-explorer-backend",
+      "@backstage/plugin-ai-explorer-common"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/ai-explorer-backend"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist",
+    "migrations"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "start": "backstage-cli package start",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-defaults": "^0.18.0",
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/config": "^1.3.9",
+    "@backstage/errors": "^1.3.1",
+    "@backstage/plugin-ai-explorer-common": "workspace:^",
+    "@backstage/plugin-events-node": "^0.4.26",
+    "express": "^4.22.0",
+    "express-promise-router": "^4.1.0",
+    "knex": "^3.0.0",
+    "uuid": "^11.0.0"
+  },
+  "devDependencies": {
+    "@backstage/backend-test-utils": "^1.11.7",
+    "@backstage/cli": "^0.36.6",
+    "@types/express": "^4.17.6",
+    "@types/supertest": "^2.0.8",
+    "@types/uuid": "^9.0.0",
+    "supertest": "^7.0.0"
+  }
+}

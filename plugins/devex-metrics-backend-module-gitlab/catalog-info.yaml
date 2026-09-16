@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-devex-metrics-backend-module-gitlab
+  title: '@backstage/plugin-devex-metrics-backend-module-gitlab'
+  description: The gitlab-collector module for the devex-metrics backend
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin-module
+  owner: maintainers

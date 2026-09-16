@@ -1,0 +1,55 @@
+{
+  "name": "@backstage/plugin-ai-gateway-backend-module-openai",
+  "version": "0.1.0",
+  "description": "The openai module for the ai-gateway backend",
+  "backstage": {
+    "role": "backend-plugin-module",
+    "pluginId": "ai-gateway",
+    "pluginPackages": [
+      "@backstage/plugin-ai-gateway",
+      "@backstage/plugin-ai-gateway-backend",
+      "@backstage/plugin-ai-gateway-common",
+      "@backstage/plugin-ai-gateway-node"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "keywords": [
+    "backstage"
+  ],
+  "homepage": "https://backstage.io",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/ai-gateway-backend-module-openai"
+  },
+  "license": "Apache-2.0",
+  "sideEffects": false,
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/config": "^1.3.9",
+    "@backstage/plugin-ai-gateway-common": "workspace:^",
+    "@backstage/plugin-ai-gateway-node": "workspace:^",
+    "openai": "^7.15.0"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.36.6"
+  },
+  "configSchema": "config.d.ts"
+}

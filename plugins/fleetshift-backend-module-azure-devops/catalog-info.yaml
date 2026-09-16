@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-fleetshift-backend-module-azure-devops
+  title: '@backstage/plugin-fleetshift-backend-module-azure-devops'
+  description: The azure-devops-provider module for the fleetshift backend
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin-module
+  owner: maintainers

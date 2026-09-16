@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-catalog-builder-backend
+  title: '@backstage/plugin-catalog-builder-backend'
+  description: Backend for the catalog-builder plugin
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

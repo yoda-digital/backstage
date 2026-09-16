@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-gateway-backend-module-bedrock
+  title: '@backstage/plugin-ai-gateway-backend-module-bedrock'
+  description: The bedrock module for the ai-gateway backend
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin-module
+  owner: maintainers

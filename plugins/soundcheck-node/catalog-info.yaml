@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-soundcheck-node
+  title: '@backstage/plugin-soundcheck-node'
+  description: Node.js library for the soundcheck plugin
+spec:
+  lifecycle: experimental
+  type: backstage-node-library
+  owner: maintainers

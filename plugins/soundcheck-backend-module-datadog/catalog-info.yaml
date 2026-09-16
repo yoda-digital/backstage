@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-soundcheck-backend-module-datadog
+  title: '@backstage/plugin-soundcheck-backend-module-datadog'
+  description: The datadog-fact-collector module for the soundcheck backend
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin-module
+  owner: maintainers

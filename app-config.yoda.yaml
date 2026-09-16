@@ -1,0 +1,100 @@
+app:
+  title: Yoda.Digital Developer Portal
+  baseUrl: ${PORTAL_BASE_URL}
+
+organization:
+  name: Yoda.Digital
+
+backend:
+  baseUrl: ${BACKEND_BASE_URL}
+  listen:
+    port: 7007
+  database:
+    client: pg
+    connection:
+      host: ${POSTGRES_HOST}
+      port: ${POSTGRES_PORT}
+      user: ${POSTGRES_USER}
+      password: ${POSTGRES_PASSWORD}
+  auth:
+    dangerouslyDisableDefaultAuthPolicy: false
+  cors:
+    origin: ${PORTAL_BASE_URL}
+    methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
+    credentials: true
+
+integrations:
+  gitlab:
+    - host: git.yoda.digital
+      apiBaseUrl: https://git.yoda.digital/api/v4
+      token: ${GITLAB_TOKEN}
+  azure:
+    - host: dev.azure.com
+      token: ${AZURE_TOKEN}
+
+auth:
+  environment: production
+  providers:
+    gitlab:
+      production:
+        clientId: ${AUTH_GITLAB_CLIENT_ID}
+        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+        audience: https://git.yoda.digital
+        callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
+        signIn:
+          resolvers:
+            - resolver: usernameMatchingUserEntityName
+
+catalog:
+  import:
+    entityFilename: catalog-info.yaml
+    pullRequestBranchName: backstage-integration
+  rules:
+    - allow:
+        - Component
+        - API
+        - Resource
+        - System
+        - Domain
+        - Location
+        - Template
+        - Group
+        - User
+  providers:
+    gitlab:
+      yoda:
+        host: git.yoda.digital
+        branch: main
+        fallbackBranch: master
+        skipForkedRepos: false
+        schedule:
+          frequency: { minutes: 10 }
+          timeout: { minutes: 3 }
+    gitlabOrg:
+      yoda:
+        host: git.yoda.digital
+        schedule:
+          frequency: { minutes: 30 }
+          timeout: { minutes: 3 }
+
+techdocs:
+  builder: external
+  publisher:
+    type: local
+
+search:
+  pg: {}
+
+permission:
+  enabled: true
+
+kubernetes:
+  clusterLocatorMethods:
+    - type: config
+      clusters:
+        - name: ${K8S_CLUSTER_NAME}
+          url: ${K8S_CLUSTER_URL}
+          authProvider: serviceAccount
+          serviceAccountToken: ${K8S_SERVICE_ACCOUNT_TOKEN}
+          skipTLSVerify: false
+          skipMetricsLookup: false

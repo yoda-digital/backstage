@@ -1,0 +1,46 @@
+{
+  "name": "@backstage/plugin-rbac-node",
+  "version": "0.1.0",
+  "description": "Node.js library for the RBAC plugin",
+  "backstage": {
+    "role": "node-library",
+    "pluginId": "rbac",
+    "pluginPackages": [
+      "@backstage/plugin-rbac",
+      "@backstage/plugin-rbac-backend",
+      "@backstage/plugin-rbac-common",
+      "@backstage/plugin-rbac-node"
+    ]
+  },
+  "publishConfig": {
+    "access": "public",
+    "main": "dist/index.cjs.js",
+    "types": "dist/index.d.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/backstage/backstage",
+    "directory": "plugins/rbac-node"
+  },
+  "license": "Apache-2.0",
+  "main": "src/index.ts",
+  "types": "src/index.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "backstage-cli package build",
+    "clean": "backstage-cli package clean",
+    "lint": "backstage-cli package lint",
+    "prepack": "backstage-cli package prepack",
+    "postpack": "backstage-cli package postpack",
+    "test": "backstage-cli package test"
+  },
+  "dependencies": {
+    "@backstage/backend-plugin-api": "^1.10.1",
+    "@backstage/plugin-rbac-common": "workspace:^"
+  },
+  "devDependencies": {
+    "@backstage/cli": "^0.36.6"
+  }
+}

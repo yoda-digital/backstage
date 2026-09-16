@@ -1,0 +1,10 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-assistant-common
+  title: '@backstage/plugin-ai-assistant-common'
+  description: Common types and utilities for the ai-assistant plugin
+spec:
+  lifecycle: experimental
+  type: backstage-common-library
+  owner: maintainers

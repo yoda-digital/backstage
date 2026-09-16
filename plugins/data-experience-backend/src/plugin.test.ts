@@ -1,0 +1,73 @@
+/*
+ * Copyright 2026 The Backstage Authors
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+import { createServiceFactory } from '@backstage/backend-plugin-api';
+import { mockServices, startTestBackend } from '@backstage/backend-test-utils';
+import { catalogServiceMock } from '@backstage/plugin-catalog-node/testUtils';
+import { notificationService } from '@backstage/plugin-notifications-node';
+import request from 'supertest';
+
+const notificationsStubFactory = createServiceFactory({
+  service: notificationService,
+  deps: {},
+  async factory() {
+    return { send: async () => {} };
+  },
+});
+
+describe('data-experience-backend plugin', () => {
+  it('starts up and serves the data-experience API', async () => {
+    const { server } = await startTestBackend({
+      features: [
+        import('../src/index'),
+        notificationsStubFactory,
+        catalogServiceMock.factory({
+          entities: [
+            {
+              apiVersion: 'backstage.io/v1alpha1',
+              kind: 'Dataset',
+              metadata: { name: 'orders', namespace: 'default' },
+              spec: { owner: 'user:default/mock' },
+            },
+          ],
+        }),
+        mockServices.rootConfig.factory({ data: {} }),
+      ],
+    });
+
+    const getResponse = await request(server).get(
+      '/api/data-experience/datasets',
+    );
+    expect(getResponse.status).toBe(200);
+    expect(getResponse.body).toHaveLength(1);
+    expect(getResponse.body[0]).toMatchObject({
+      kind: 'Dataset',
+      metadata: { name: 'orders' },
+    });
+
+    const postResponse = await request(server)
+      .post('/api/data-experience/access-requests')
+      .send({
+        datasetRef: 'dataset:default/orders',
+        reason: 'Need it for a dashboard',
+      });
+    expect(postResponse.status).toBe(201);
+    expect(postResponse.body).toMatchObject({
+      datasetRef: 'dataset:default/orders',
+      reason: 'Need it for a dashboard',
+    });
+  });
+});

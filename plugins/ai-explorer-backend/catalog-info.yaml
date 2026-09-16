@@ -1,0 +1,12 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: backstage-plugin-ai-explorer-backend
+  title: '@backstage/plugin-ai-explorer-backend'
+  description: >-
+    The backend for the ai-explorer plugin, providing rule and skill
+    indexing plus an MCP plugin marketplace registry
+spec:
+  lifecycle: experimental
+  type: backstage-backend-plugin
+  owner: maintainers

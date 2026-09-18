@@ -22,6 +22,8 @@ import {
 } from '@backstage/backend-plugin-api';
 import { Config } from '@backstage/config';
 import * as yaml from 'js-yaml';
+import * as fs from 'fs';
+import * as path from 'path';
 import { InputError, NotFoundError } from '@backstage/errors';
 import {
   AzureIntegration,
@@ -278,18 +280,15 @@ export class IngestionEngine {
     const entityYaml = yaml.dump(entity);
     const name = entity.metadata.name;
 
-    // Store entity YAML in DB so the router can serve it
+    // Store entity YAML in DB for the serving endpoint
     await this.store.storeEntity(name, entityYaml);
 
-    // Tell the catalog to fetch the entity from our endpoint
-    const credentials = await this.getCatalogCredentials();
-    await this.catalog.addLocation(
-      {
-        type: 'url',
-        target: `http://localhost:7007/api/catalog-builder/entities/${encodeURIComponent(name)}/catalog-info.yaml`,
-      },
-      { credentials },
-    );
+    // Write entity to a file on disk that the catalog watches
+    const entitiesDir = path.resolve('/app/catalog-entities');
+    fs.mkdirSync(entitiesDir, { recursive: true });
+    const filePath = path.join(entitiesDir, name + '.yaml');
+    fs.writeFileSync(filePath, entityYaml, 'utf8');
+    this.logger.info('Wrote entity file: ' + filePath);
   }
 
   private async ingestYamlManaged(repository: RepositoryInfo): Promise<void> {

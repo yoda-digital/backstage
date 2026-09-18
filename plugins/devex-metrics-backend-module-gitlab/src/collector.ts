@@ -92,7 +92,7 @@ export class GitLabMetricCollector implements MetricCollector {
     from: string,
   ): Promise<GitLabProject[]> {
     const res = await fetch(
-      `${baseUrl}/projects?per_page=100&updated_after=${encodeURIComponent(
+      `${baseUrl}/projects?per_page=100&last_activity_after=${encodeURIComponent(
         from,
       )}`,
       { headers: { 'PRIVATE-TOKEN': token } },
@@ -116,7 +116,7 @@ export class GitLabMetricCollector implements MetricCollector {
       const pipelinesRes = await fetch(
         `${baseUrl}/projects/${
           project.id
-        }/pipelines?status=success&updated_after=${encodeURIComponent(
+        }/pipelines?status=success&last_activity_after=${encodeURIComponent(
           from,
         )}&updated_before=${encodeURIComponent(to)}&ref=main&per_page=100`,
         { headers: { 'PRIVATE-TOKEN': token } },
@@ -159,7 +159,7 @@ export class GitLabMetricCollector implements MetricCollector {
       const pipelinesRes = await fetch(
         `${baseUrl}/projects/${
           project.id
-        }/pipelines?updated_after=${encodeURIComponent(
+        }/pipelines?last_activity_after=${encodeURIComponent(
           from,
         )}&updated_before=${encodeURIComponent(to)}&ref=main&per_page=100`,
         { headers: { 'PRIVATE-TOKEN': token } },

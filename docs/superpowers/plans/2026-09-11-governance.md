@@ -8,7 +8,7 @@
 
 **Tech Stack:** PostgreSQL (Knex), Backstage Permission Framework, Catalog Processors, EventsService, new frontend system.
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 2 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 2 section.
 
 ## Global Constraints
 

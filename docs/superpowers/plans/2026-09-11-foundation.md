@@ -2,13 +2,13 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Configure Backstage OSS for Yoda.Digital's stack — GitLab self-hosted auth, GitLab org-wide catalog discovery, Azure DevOps integration, Kubernetes, PostgreSQL database, production-grade Search and TechDocs.
+**Goal:** Configure Backstage OSS for DevPane's stack — GitLab self-hosted auth, GitLab org-wide catalog discovery, Azure DevOps integration, Kubernetes, PostgreSQL database, production-grade Search and TechDocs.
 
-**Architecture:** Replace the dev-oriented defaults (SQLite in-memory, GitHub auth, guest auth, local TechDocs) with production configuration targeting git.yoda.digital (GitLab), Azure DevOps, and Kubernetes clusters. No new packages are created — this is wiring and configuration of existing backend modules and frontend plugins.
+**Architecture:** Replace the dev-oriented defaults (SQLite in-memory, GitHub auth, guest auth, local TechDocs) with production configuration targeting git.example.com (GitLab), Azure DevOps, and Kubernetes clusters. No new packages are created — this is wiring and configuration of existing backend modules and frontend plugins.
 
 **Tech Stack:** PostgreSQL, GitLab OAuth, GitLab Discovery Entity Provider, Azure DevOps plugins, Kubernetes plugin (already wired), MkDocs with external storage for TechDocs.
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 1 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 1 section.
 
 ## Global Constraints
 
@@ -16,31 +16,31 @@
 - All config values via environment variables (`${VAR}`) — no hardcoded secrets
 - Follow existing `app-config.yaml` structure conventions
 - Copyright headers on all new `.ts` files (Apache 2.0, year 2026)
-- GitLab self-hosted at `git.yoda.digital`
+- GitLab self-hosted at `git.example.com`
 - Backend default auth policy must be enabled (remove `dangerouslyDisableDefaultAuthPolicy`)
 
 ---
 
-### Task 1: Create Yoda.Digital App Config
+### Task 1: Create DevPane App Config
 
 **Files:**
 
-- Create: `app-config.yoda.yaml`
+- Create: `app-config.devpane.yaml`
 
 **Interfaces:**
 
 - Consumes: nothing
-- Produces: Yoda.Digital-specific app config overlay, loaded via `--config app-config.yoda.yaml`
+- Produces: DevPane-specific app config overlay, loaded via `--config app-config.devpane.yaml`
 
-- [ ] **Step 1: Create `app-config.yoda.yaml` with core settings**
+- [ ] **Step 1: Create `app-config.devpane.yaml` with core settings**
 
 ```yaml
 app:
-  title: Yoda.Digital Developer Portal
+  title: DevPane Developer Portal
   baseUrl: ${PORTAL_BASE_URL}
 
 organization:
-  name: Yoda.Digital
+  name: DevPane
 
 backend:
   baseUrl: ${BACKEND_BASE_URL}
@@ -62,8 +62,8 @@ backend:
 
 integrations:
   gitlab:
-    - host: git.yoda.digital
-      apiBaseUrl: https://git.yoda.digital/api/v4
+    - host: git.example.com
+      apiBaseUrl: https://git.example.com/api/v4
       token: ${GITLAB_TOKEN}
   azure:
     - host: dev.azure.com
@@ -76,7 +76,7 @@ auth:
       production:
         clientId: ${AUTH_GITLAB_CLIENT_ID}
         clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-        audience: https://git.yoda.digital
+        audience: https://git.example.com
         callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
         signIn:
           resolvers:
@@ -99,8 +99,8 @@ catalog:
         - User
   providers:
     gitlab:
-      yoda:
-        host: git.yoda.digital
+      default:
+        host: git.example.com
         branch: main
         fallbackBranch: master
         skipForkedRepos: false
@@ -108,8 +108,8 @@ catalog:
           frequency: { minutes: 10 }
           timeout: { minutes: 3 }
     gitlabOrg:
-      yoda:
-        host: git.yoda.digital
+      default:
+        host: git.example.com
         schedule:
           frequency: { minutes: 30 }
           timeout: { minutes: 3 }
@@ -139,14 +139,14 @@ kubernetes:
 
 - [ ] **Step 2: Verify config loads without errors**
 
-Run: `node -e "const yaml = require('js-yaml'); const fs = require('fs'); yaml.load(fs.readFileSync('app-config.yoda.yaml', 'utf8')); console.log('Valid YAML')"`
+Run: `node -e "const yaml = require('js-yaml'); const fs = require('fs'); yaml.load(fs.readFileSync('app-config.devpane.yaml', 'utf8')); console.log('Valid YAML')"`
 Expected: `Valid YAML`
 
 - [ ] **Step 3: Commit**
 
 ```bash
-git add app-config.yoda.yaml
-git commit -s -m "feat: add Yoda.Digital environment app config
+git add app-config.devpane.yaml
+git commit -s -m "feat: add DevPane environment app config
 
 PostgreSQL database, GitLab self-hosted auth and catalog discovery,
 Azure DevOps integration, Kubernetes cluster config, production
@@ -226,7 +226,7 @@ Modify `packages/backend/src/index.ts` — add GitLab auth, catalog discovery, o
 After the existing `backend.add(import('@backstage/plugin-auth-backend'));` line, replace the GitHub auth line and add:
 
 ```ts
-// Auth — GitLab (primary for Yoda.Digital)
+// Auth — GitLab (primary for DevPane)
 backend.add(import('./authModuleGitlabProvider'));
 backend.add(import('@backstage/plugin-auth-backend-module-guest-provider'));
 
@@ -265,7 +265,7 @@ Expected: No errors related to the auth module or imports
 git add packages/backend/src/authModuleGitlabProvider.ts packages/backend/src/index.ts
 git commit -s -m "feat: wire GitLab auth, catalog discovery, and Azure DevOps backends
 
-Replace GitHub auth with GitLab OAuth for git.yoda.digital.
+Replace GitHub auth with GitLab OAuth for git.example.com.
 Add GitLab org and repo discovery for automated catalog population.
 Add GitLab events module for webhook-driven updates.
 Add Azure DevOps catalog and scaffolder modules."
@@ -273,7 +273,7 @@ Add Azure DevOps catalog and scaffolder modules."
 
 ---
 
-### Task 3: Configure Frontend for Yoda.Digital Stack
+### Task 3: Configure Frontend for DevPane Stack
 
 **Files:**
 
@@ -308,7 +308,7 @@ No major changes needed for Foundation — the frontend plugins (catalog, K8s, T
 
 ```bash
 git add packages/app/src/
-git commit -s -m "feat: configure frontend for Yoda.Digital stack"
+git commit -s -m "feat: configure frontend for DevPane stack"
 ```
 
 ---
@@ -349,9 +349,9 @@ Expected: Tests pass
 Run: `CI=1 yarn test plugins/catalog-backend-module-azure 2>&1 | tail -20`
 Expected: Tests pass
 
-- [ ] **Step 6: Verify dev server starts (without Yoda.Digital credentials)**
+- [ ] **Step 6: Verify dev server starts (without DevPane credentials)**
 
-Run: `yarn start 2>&1 | head -30` (starts with default `app-config.yaml`, not yoda overlay)
+Run: `yarn start 2>&1 | head -30` (starts with default `app-config.yaml`, not devpane overlay)
 Expected: Backend starts on :7007, frontend on :3000, no import errors
 
 - [ ] **Step 7: Commit verification notes**
@@ -374,7 +374,7 @@ After Foundation completes, the following is in place:
 | Azure DevOps catalog      | ✅ Pipeline and repo discovery                              |
 | Azure DevOps scaffolder   | ✅ Template actions for ADO                                 |
 | Kubernetes                | ✅ Already wired                                            |
-| PostgreSQL                | ✅ Via app-config.yoda.yaml                                 |
+| PostgreSQL                | ✅ Via app-config.devpane.yaml                                 |
 | Search (PostgreSQL)       | ✅ Via `search.pg` config                                   |
 | TechDocs                  | ✅ External builder configured                              |
 | MCP Actions Backend       | ✅ Already wired                                            |

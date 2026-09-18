@@ -1,4 +1,4 @@
-# Yoda.Digital Developer Portal
+# DevPane Developer Portal
 
 72 Backstage plugins that replicate Spotify's Portal for Backstage. Self-hosted, wired to GitLab, Kubernetes, JHelp, and Azure DevOps.
 
@@ -7,7 +7,7 @@ This is a standalone Backstage app created with `@backstage/create-app`. All `@b
 ## Quick start
 
 ```bash
-git clone git@github.com:yoda-digital/backstage.git
+git clone git@github.com:devpane/developer-portal.git
 cd backstage
 yarn install
 yarn dev
@@ -18,10 +18,10 @@ Frontend runs on `:3000`, backend on `:7007`.
 For production config:
 
 ```bash
-yarn dev --config app-config.yaml --config app-config.yoda.yaml
+yarn dev --config app-config.yaml --config app-config.devpane.yaml
 ```
 
-Set the environment variables listed in `app-config.yoda.yaml` before starting.
+Set the environment variables listed in `app-config.devpane.yaml` before starting.
 
 ## Adding these plugins to your own Backstage
 
@@ -137,7 +137,7 @@ Warehouse modules: `data-experience-backend-module-snowflake`, `-bigquery`, `-db
 
 | Component | Technology |
 |-----------|-----------|
-| Source control | GitLab self-hosted (git.yoda.digital) |
+| Source control | GitLab self-hosted (git.example.com) |
 | CI/CD | GitLab CI + Azure DevOps Pipelines |
 | Infrastructure | Kubernetes |
 | Helpdesk | JHelp |
@@ -154,7 +154,7 @@ Six groups of plugins, each with backend, frontend, common types, and node exten
 3. AI Platform (Gateway, Assistant, Explorer) depends on Governance for permissions
 4. Intelligence (Metrics, Insights, Fleetshift, Templates) depends on AI Gateway for LLM calls
 5. Ecosystem (Data, GrowthBook, Skills, Home, Catalog Builder) depends on Governance
-6. Foundation is config only (`app-config.yoda.yaml`)
+6. Foundation is config only (`app-config.devpane.yaml`)
 
 Design specs: `docs/superpowers/specs/`
 Implementation plans: `docs/superpowers/plans/`

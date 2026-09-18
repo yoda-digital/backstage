@@ -1,8 +1,8 @@
-# Yoda.Digital Developer Portal — Master Architecture Design
+# DevPane Developer Portal — Master Architecture Design
 
 ## Overview
 
-Build a full-featured internal developer portal on Backstage OSS with feature parity to Spotify Portal for Backstage, natively integrated with Yoda.Digital's stack: GitLab self-hosted (git.yoda.digital), Kubernetes, JHelp, and Azure DevOps.
+Build a full-featured internal developer portal on Backstage OSS with feature parity to Spotify Portal for Backstage, natively integrated with DevPane's stack: GitLab self-hosted (git.example.com), Kubernetes, JHelp, and Azure DevOps.
 
 All features are implemented as Backstage plugins following the existing codebase patterns. The new frontend system is mandatory. GrowthBook OSS replaces Spotify's Confidence for feature flags/experimentation.
 
@@ -41,7 +41,7 @@ Each feature module follows ADR011 naming. New packages to create:
 
 ### Sub-project 1: Foundation
 
-Configure existing plugins for Yoda.Digital's stack. No new packages — configuration only.
+Configure existing plugins for DevPane's stack. No new packages — configuration only.
 
 ### Sub-project 2: Governance
 

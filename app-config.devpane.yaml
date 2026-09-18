@@ -1,9 +1,9 @@
 app:
-  title: Yoda.Digital Developer Portal
+  title: DevPane Developer Portal
   baseUrl: ${PORTAL_BASE_URL}
 
 organization:
-  name: Yoda.Digital
+  name: DevPane
 
 backend:
   baseUrl: ${BACKEND_BASE_URL}
@@ -25,8 +25,8 @@ backend:
 
 integrations:
   gitlab:
-    - host: git.yoda.digital
-      apiBaseUrl: https://git.yoda.digital/api/v4
+    - host: git.example.com
+      apiBaseUrl: https://git.example.com/api/v4
       token: ${GITLAB_TOKEN}
   azure:
     - host: dev.azure.com
@@ -39,7 +39,7 @@ auth:
       production:
         clientId: ${AUTH_GITLAB_CLIENT_ID}
         clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-        audience: https://git.yoda.digital
+        audience: https://git.example.com
         callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
         signIn:
           resolvers:
@@ -62,8 +62,8 @@ catalog:
         - User
   providers:
     gitlab:
-      yoda:
-        host: git.yoda.digital
+      default:
+        host: git.example.com
         branch: main
         fallbackBranch: master
         skipForkedRepos: false
@@ -71,8 +71,8 @@ catalog:
           frequency: { minutes: 10 }
           timeout: { minutes: 3 }
     gitlabOrg:
-      yoda:
-        host: git.yoda.digital
+      default:
+        host: git.example.com
         schedule:
           frequency: { minutes: 30 }
           timeout: { minutes: 3 }

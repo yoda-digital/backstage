@@ -8,7 +8,7 @@
 
 **Tech Stack:** PostgreSQL (Knex migrations), `coreServices.scheduler` for periodic fact collection, `@backstage/backend-plugin-api` extension points, new frontend system (`@backstage/frontend-plugin-api`).
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 3 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 3 section.
 
 ## Global Constraints
 
@@ -1934,7 +1934,7 @@ describe('GitLabFactCollector', () => {
   it('should have the correct factRef', () => {
     const config = new ConfigReader({
       integrations: {
-        gitlab: [{ host: 'git.yoda.digital', token: 'test' }],
+        gitlab: [{ host: 'git.example.com', token: 'test' }],
       },
     });
     const integrations = ScmIntegrations.fromConfig(config);
@@ -1953,14 +1953,14 @@ describe('GitLabFactCollector', () => {
   it('should return fact data with GitLab integration', async () => {
     const config = new ConfigReader({
       integrations: {
-        gitlab: [{ host: 'git.yoda.digital', token: 'test' }],
+        gitlab: [{ host: 'git.example.com', token: 'test' }],
       },
     });
     const integrations = ScmIntegrations.fromConfig(config);
     const collector = new GitLabFactCollector(integrations);
     const result = await collector.collect('component:default/my-service');
     expect(result.data.available).toBe(true);
-    expect(result.data.host).toBe('git.yoda.digital');
+    expect(result.data.host).toBe('git.example.com');
   });
 });
 ```

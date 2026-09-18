@@ -8,7 +8,7 @@
 
 **Tech Stack:** PostgreSQL (Knex), Catalog Processors, GrowthBook OSS API, Backstage Notifications, new frontend system.
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 6 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 6 section.
 
 ## Global Constraints
 

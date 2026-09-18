@@ -8,7 +8,7 @@
 
 **Tech Stack:** TypeScript, PostgreSQL (Knex migrations), Backstage backend-plugin-api / frontend-plugin-api, Anthropic SDK, OpenAI SDK, streaming via AsyncIterable, React (new frontend system with Blueprints).
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 4 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 4 section.
 
 ## Global Constraints
 

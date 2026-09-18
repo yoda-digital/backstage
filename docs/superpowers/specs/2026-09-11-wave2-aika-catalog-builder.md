@@ -260,9 +260,9 @@ completed_at TIMESTAMP
 catalogBuilder:
   providers:
     gitlab:
-      host: git.yoda.digital
+      host: git.example.com
     azure:
-      organization: yoda
+      organization: example
 ```
 
 Uses integration credentials from `integrations.gitlab` and `integrations.azure`.

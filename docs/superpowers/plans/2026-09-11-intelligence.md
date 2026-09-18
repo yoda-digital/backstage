@@ -8,7 +8,7 @@
 
 **Tech Stack:** PostgreSQL (Knex), GitLab CI/CD API, Azure DevOps API, AI Gateway (sub-project 4), Kubernetes Jobs, Backstage Scaffolder, new frontend system.
 
-**Spec:** `docs/superpowers/specs/2026-09-11-yoda-portal-architecture-design.md` — Sub-project 5 section.
+**Spec:** `docs/superpowers/specs/2026-09-11-devpane-portal-architecture-design.md` — Sub-project 5 section.
 
 ## Global Constraints
 

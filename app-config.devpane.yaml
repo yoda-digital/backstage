@@ -23,6 +23,9 @@ backend:
     origin: ${PORTAL_BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
     credentials: true
+  csp:
+    connect-src: ["'self'", "http:", "https:"]
+    script-src: ["'self'", "'unsafe-eval'", "https://static.cloudflareinsights.com"]
 
 integrations:
   gitlab:
@@ -92,10 +95,6 @@ permission:
 # Required by kubernetes-backend even when no clusters configured
 kubernetes:
   serviceLocatorMethod:
-    type: multiTenant
-  clusterLocatorMethods: []
-
-backend:
   csp:
     connect-src: ["'self'", "http:", "https:"]
     script-src: ["'self'", "'unsafe-eval'", "https://static.cloudflareinsights.com"]

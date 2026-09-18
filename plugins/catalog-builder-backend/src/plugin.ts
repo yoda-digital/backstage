@@ -94,6 +94,7 @@ export const catalogBuilderPlugin = createBackendPlugin({
         });
         httpRouter.use(router);
         httpRouter.addAuthPolicy({ path: '/', allow: 'user-cookie' });
+        httpRouter.addAuthPolicy({ path: '/entities', allow: 'unauthenticated' });
 
         logger.info('Catalog builder plugin initialized');
       },

@@ -24,27 +24,6 @@ import {
 } from '@backstage/core-components';
 import SearchIcon from '@material-ui/icons/Search';
 import MenuIcon from '@material-ui/icons/Menu';
-import HomeIcon from '@material-ui/icons/Home';
-import CategoryIcon from '@material-ui/icons/Category';
-import AddCircleOutlineIcon from '@material-ui/icons/AddCircleOutline';
-import CheckCircleIcon from '@material-ui/icons/CheckCircle';
-import SecurityIcon from '@material-ui/icons/Security';
-import AssessmentIcon from '@material-ui/icons/Assessment';
-import ListAltIcon from '@material-ui/icons/ListAlt';
-import CloudIcon from '@material-ui/icons/Cloud';
-import ChatIcon from '@material-ui/icons/Chat';
-import ExtensionIcon from '@material-ui/icons/Extension';
-import TimelineIcon from '@material-ui/icons/Timeline';
-import TrendingUpIcon from '@material-ui/icons/TrendingUp';
-import TransformIcon from '@material-ui/icons/Transform';
-import EditIcon from '@material-ui/icons/Edit';
-import StorageIcon from '@material-ui/icons/Storage';
-import FlagIcon from '@material-ui/icons/Flag';
-import PeopleIcon from '@material-ui/icons/People';
-import DashboardIcon from '@material-ui/icons/Dashboard';
-import PublishIcon from '@material-ui/icons/Publish';
-import LayersIcon from '@material-ui/icons/Layers';
-import BuildIcon from '@material-ui/icons/Build';
 import { createFrontendModule } from '@backstage/frontend-plugin-api';
 import { NavContentBlueprint } from '@backstage/plugin-app-react';
 import { SidebarSearchModal } from '@backstage/plugin-search';
@@ -81,7 +60,7 @@ const useSectionStyles = makeStyles(theme => ({
     color: theme.palette.text.secondary,
     fontSize: 10,
     fontWeight: 700,
-    textTransform: 'uppercase',
+    textTransform: 'uppercase' as const,
     letterSpacing: 1.2,
     padding: '12px 24px 4px',
   },
@@ -105,7 +84,10 @@ export const appModuleNav = createFrontendModule({
               text={item.title}
             />
           ));
+
+          // Consume search separately (handled by modal)
           nav.take('page:search');
+
           return (
             <Sidebar>
               <SidebarLogo />
@@ -115,43 +97,41 @@ export const appModuleNav = createFrontendModule({
               <SidebarDivider />
               <SidebarGroup label="Menu" icon={<MenuIcon />}>
                 <SidebarScrollWrapper>
-                  {/* Core */}
-                  <SidebarItem icon={HomeIcon} to="/" text="Home" />
-                  <SidebarItem icon={CategoryIcon} to="/catalog" text="Catalog" />
-                  <SidebarItem icon={AddCircleOutlineIcon} to="/create" text="Create" />
+                  {/* Core — using nav.take to get REAL plugin routes */}
+                  {nav.take('page:home')}
+                  {nav.take('page:catalog')}
+                  {nav.take('page:scaffolder')}
 
                   <SidebarDivider />
                   <SectionLabel>Quality</SectionLabel>
-                  <SidebarItem icon={CheckCircleIcon} to="/soundcheck" text="Soundcheck" />
+                  {nav.take('page:soundcheck')}
 
                   <SectionLabel>Governance</SectionLabel>
-                  <SidebarItem icon={SecurityIcon} to="/rbac" text="RBAC" />
-                  <SidebarItem icon={LayersIcon} to="/entity-overlays" text="Entity Overlays" />
-                  <SidebarItem icon={AssessmentIcon} to="/audit-log" text="Audit Log" />
+                  {nav.take('page:rbac')}
+                  {nav.take('page:entity-overlays')}
+                  {nav.take('page:audit-log')}
 
                   <SectionLabel>AI</SectionLabel>
-                  <SidebarItem icon={CloudIcon} to="/ai-gateway" text="AI Gateway" />
-                  <SidebarItem icon={ChatIcon} to="/ai-assistant" text="AI Assistant" />
-                  <SidebarItem icon={ExtensionIcon} to="/ai-explorer" text="AI Explorer" />
+                  {nav.take('page:ai-gateway')}
+                  {nav.take('page:ai-assistant')}
+                  {nav.take('page:ai-explorer')}
 
                   <SectionLabel>Intelligence</SectionLabel>
-                  <SidebarItem icon={TimelineIcon} to="/devex-metrics" text="DevEx Metrics" />
-                  <SidebarItem icon={TrendingUpIcon} to="/insights" text="Insights" />
-                  <SidebarItem icon={TransformIcon} to="/fleetshift" text="Fleetshift" />
-                  <SidebarItem icon={EditIcon} to="/template-editor" text="Template Editor" />
+                  {nav.take('page:devex-metrics')}
+                  {nav.take('page:insights')}
+                  {nav.take('page:fleetshift')}
+                  {nav.take('page:template-editor')}
 
                   <SectionLabel>Ecosystem</SectionLabel>
-                  <SidebarItem icon={StorageIcon} to="/data-experience" text="Data Experience" />
-                  <SidebarItem icon={FlagIcon} to="/growthbook" text="Feature Flags" />
-                  <SidebarItem icon={PeopleIcon} to="/skill-exchange" text="Skill Exchange" />
-                  <SidebarItem icon={DashboardIcon} to="/home-customizer" text="Home Customizer" />
-                  <SidebarItem icon={PublishIcon} to="/catalog-builder" text="Catalog Builder" />
+                  {nav.take('page:data-experience')}
+                  {nav.take('page:growthbook')}
+                  {nav.take('page:skill-exchange')}
+                  {nav.take('page:home-customizer')}
+                  {nav.take('page:catalog-builder')}
 
                   <SidebarDivider />
-                  <SidebarItem icon={BuildIcon} to="/devtools" text="DevTools" />
-
-                  {/* Any remaining nav items from plugins */}
-                  {nav.rest({ sortBy: 'title' })}
+                  {nav.take('page:devtools')}
+                  {nav.take('page:app-visualizer')}
                 </SidebarScrollWrapper>
               </SidebarGroup>
               <SidebarDivider />
@@ -163,7 +143,7 @@ export const appModuleNav = createFrontendModule({
                 to="/settings"
               >
                 <NotificationsSidebarItem />
-                <SidebarItem icon={ListAltIcon} to="/settings" text="Settings" />
+                {nav.take('page:user-settings')}
               </SidebarGroup>
             </Sidebar>
           );

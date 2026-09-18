@@ -83,12 +83,10 @@ backend.add(import('@backstage/plugin-events-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-catalog-backend-module-azure'));
 
 // === KUBERNETES ===
-backend.add(import('@backstage/plugin-kubernetes-backend'));
 
 // === SOUNDCHECK — all 14 collectors ===
 backend.add(import('@backstage/plugin-soundcheck-backend'));
 backend.add(import('@backstage/plugin-soundcheck-backend-module-gitlab'));
-backend.add(import('@backstage/plugin-soundcheck-backend-module-kubernetes'));
 backend.add(import('@backstage/plugin-soundcheck-backend-module-sonarqube'));
 backend.add(import('@backstage/plugin-soundcheck-backend-module-azure-devops'));
 backend.add(import('@backstage/plugin-soundcheck-backend-module-http'));

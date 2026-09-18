@@ -21,8 +21,6 @@ auth:
       dangerouslyAllowOutsideDevelopment: true
 
 # Kubernetes — leave empty object if not configured yet, prevents crash
-kubernetes:
-  clusterLocatorMethods: []
 
 # GrowthBook — provide a default so the plugin starts
 growthbook:

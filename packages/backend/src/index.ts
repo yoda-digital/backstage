@@ -83,6 +83,8 @@ backend.add(import('@backstage/plugin-events-backend-module-gitlab'));
 backend.add(import('@backstage/plugin-catalog-backend-module-azure'));
 
 // === KUBERNETES ===
+backend.add(import('@backstage/plugin-kubernetes-backend'));
+backend.add(import('@backstage/plugin-soundcheck-backend-module-kubernetes'));
 
 // === SOUNDCHECK — all 14 collectors ===
 backend.add(import('@backstage/plugin-soundcheck-backend'));

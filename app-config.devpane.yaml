@@ -38,16 +38,6 @@ auth:
   providers:
     guest:
       dangerouslyAllowOutsideDevelopment: true
-    # GitLab OAuth — uncomment when Dumitru creates the app
-    # gitlab:
-    #   production:
-    #     clientId: ${AUTH_GITLAB_CLIENT_ID}
-    #     clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-    #     audience: https://git.esempla.systems
-    #     callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
-    #     signIn:
-    #       resolvers:
-    #         - resolver: usernameMatchingUserEntityName
 
 catalog:
   import:
@@ -92,14 +82,11 @@ search:
 permission:
   enabled: true
 
-# Required by kubernetes-backend even when no clusters configured
 kubernetes:
   serviceLocatorMethod:
-  csp:
-    connect-src: ["'self'", "http:", "https:"]
-    script-src: ["'self'", "'unsafe-eval'", "https://static.cloudflareinsights.com"]
+    type: multiTenant
+  clusterLocatorMethods: []
 
-# AI Gateway — Ollama on host
 aiGateway:
   providers:
     ollama:
@@ -113,13 +100,11 @@ aiGateway:
           name: Qwen3.8 27B
           capabilities: [chat, completion]
 
-# AI Assistant — use Ollama via gateway
 aiAssistant:
   defaultModel: qwen3-8b-shared
   gateway:
     baseUrl: http://localhost:7007/api/ai-gateway
 
-# Embeddings for RAG
 aiEmbeddings:
   provider: ollama
   model: bge-m3

@@ -109,3 +109,8 @@ aiEmbeddings:
   provider: ollama
   model: bge-m3
   baseUrl: http://host.docker.internal:11434
+
+catalogBuilder:
+  providers:
+    gitlab:
+      host: git.esempla.systems

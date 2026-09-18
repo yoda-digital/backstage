@@ -27,6 +27,7 @@ import { RbacClient } from './api/RbacClient';
 const rbacPage = PageBlueprint.make({
   params: {
     path: '/rbac',
+    title: 'RBAC',
     loader: () => import('./components/PolicyPage').then(m => <m.PolicyPage />),
   },
 });

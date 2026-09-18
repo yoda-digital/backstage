@@ -314,7 +314,7 @@ export class IngestionEngine {
       apiVersion: 'backstage.io/v1alpha1',
       kind: details.kind ?? 'Component',
       metadata: {
-        name: repository.name,
+        name: repository.name.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, ""),
         description: repository.description,
         tags: details.tags,
         annotations: {
@@ -322,6 +322,7 @@ export class IngestionEngine {
           'backstage.io/managed-by-origin-location': `url:${repository.url}`,
           'catalog-builder/provider': request.provider,
           'catalog-builder/organization': request.organization,
+          'backstage.io/title': repository.name,
         },
       },
       spec: {

@@ -82,7 +82,6 @@ export const catalogBuilderPlugin = createBackendPlugin({
           catalog,
           auth,
           scheduler,
-          entityProvider: catalogBuilderEntityProvider,
         });
 
         const router = createRouter({

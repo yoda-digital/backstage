@@ -167,6 +167,16 @@ export function createRouter(options: RouterOptions) {
     res.json(job);
   });
 
+
+  // Serve stored entity YAML for catalog.addLocation to fetch
+  router.get('/entities/:name/catalog-info.yaml', async (req, res) => {
+    const entityYaml = await store.getEntity(req.params.name);
+    if (!entityYaml) {
+      throw new NotFoundError(`No stored entity for ${req.params.name}`);
+    }
+    res.type('text/yaml').send(entityYaml);
+  });
+
   const middleware = MiddlewareFactory.create({ config, logger });
   router.use(middleware.error());
   return router;

@@ -167,4 +167,18 @@ export class JobStore {
         : undefined,
     };
   }
+
+  async storeEntity(name: string, entityYaml: string): Promise<void> {
+    await this.db('catalog_builder_entities')
+      .insert({ name, entity_yaml: entityYaml, created_at: new Date() })
+      .onConflict('name')
+      .merge({ entity_yaml: entityYaml });
+  }
+
+  async getEntity(name: string): Promise<string | undefined> {
+    const row = await this.db('catalog_builder_entities')
+      .where({ name })
+      .first();
+    return row?.entity_yaml;
+  }
 }

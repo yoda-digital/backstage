@@ -54,6 +54,7 @@
     "@backstage/plugin-events-node": "^0.4.26",
     "express": "^4.22.0",
     "express-promise-router": "^4.1.0",
+    "js-yaml": "^4.1.0",
     "knex": "^3.0.0"
   },
   "devDependencies": {

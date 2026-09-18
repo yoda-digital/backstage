@@ -21,6 +21,7 @@ import {
   SchedulerService,
 } from '@backstage/backend-plugin-api';
 import { Config } from '@backstage/config';
+import * as yaml from 'js-yaml';
 import { InputError, NotFoundError } from '@backstage/errors';
 import {
   AzureIntegration,
@@ -94,7 +95,6 @@ export interface IngestionEngineOptions {
   catalog: CatalogService;
   auth: AuthService;
   scheduler: SchedulerService;
-  entityProvider: CatalogBuilderEntityProvider;
   /** Overridable for testing. */
   fetchApi?: typeof fetch;
 }
@@ -113,7 +113,6 @@ export class IngestionEngine {
   private readonly catalog: CatalogService;
   private readonly auth: AuthService;
   private readonly scheduler: SchedulerService;
-  private readonly entityProvider: CatalogBuilderEntityProvider;
   private readonly integrations: ScmIntegrations;
   private readonly fetchApi: typeof fetch;
 
@@ -124,7 +123,6 @@ export class IngestionEngine {
     this.catalog = options.catalog;
     this.auth = options.auth;
     this.scheduler = options.scheduler;
-    this.entityProvider = options.entityProvider;
     this.integrations = ScmIntegrations.fromConfig(options.config);
     this.fetchApi = options.fetchApi ?? fetch;
   }
@@ -277,7 +275,21 @@ export class IngestionEngine {
     request: IngestRequest,
   ): Promise<void> {
     const entity = this.buildComponentEntity(repository, request);
-    await this.entityProvider.addEntities([entity]);
+    const entityYaml = yaml.dump(entity);
+    const name = entity.metadata.name;
+
+    // Store entity YAML in DB so the router can serve it
+    await this.store.storeEntity(name, entityYaml);
+
+    // Tell the catalog to fetch the entity from our endpoint
+    const credentials = await this.getCatalogCredentials();
+    await this.catalog.addLocation(
+      {
+        type: 'url',
+        target: `http://localhost:7007/api/catalog-builder/entities/${encodeURIComponent(name)}/catalog-info.yaml`,
+      },
+      { credentials },
+    );
   }
 
   private async ingestYamlManaged(repository: RepositoryInfo): Promise<void> {

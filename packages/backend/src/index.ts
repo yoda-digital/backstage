@@ -21,6 +21,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { permissionModuleRbacPolicy } from '@backstage/plugin-rbac-backend';
 import { catalogModuleEntityOverlays } from '@backstage/plugin-entity-overlays-backend';
+import { catalogModuleCatalogBuilder } from '@backstage/plugin-catalog-builder-backend';
 import { catalogModuleDbtLineage } from '@backstage/plugin-data-experience-backend-module-dbt';
 
 const backend = createBackend();
@@ -135,6 +136,7 @@ backend.add(catalogModuleDbtLineage);
 backend.add(import('@backstage/plugin-growthbook-backend'));
 backend.add(import('@backstage/plugin-skill-exchange-backend'));
 backend.add(import('@backstage/plugin-catalog-builder-backend'));
+backend.add(catalogModuleCatalogBuilder);
 
 // === INFRA ===
 backend.add(import('@backstage/plugin-mcp-actions-backend'));

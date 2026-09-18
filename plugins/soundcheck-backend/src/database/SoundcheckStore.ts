@@ -75,7 +75,7 @@ export class SoundcheckStore {
 
   static async create(options: { database: Knex }): Promise<SoundcheckStore> {
     await applyMigrations(options.database);
-    await options.database.migrate.latest({ directory: migrationsDir });
+    await options.database.migrate.latest({ directory: migrationsDir, tableName: 'knex_migrations_soundcheck' });
     return new SoundcheckStore(options.database);
   }
 

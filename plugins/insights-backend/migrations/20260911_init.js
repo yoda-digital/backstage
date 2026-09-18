@@ -20,26 +20,30 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('insights_events', table => {
-    table.increments('id').primary();
-    table.string('event_type').notNullable().index();
-    table.string('user_ref').notNullable().index();
-    table.string('target').index();
-    table.jsonb('metadata').notNullable().defaultTo('{}');
-    table
-      .timestamp('timestamp', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now())
-      .index();
-  });
+  if (!(await knex.schema.hasTable('insights_events'))) {
+    await knex.schema.createTable('insights_events', table => {
+      table.increments('id').primary();
+      table.string('event_type').notNullable().index();
+      table.string('user_ref').notNullable().index();
+      table.string('target').index();
+      table.jsonb('metadata').notNullable().defaultTo('{}');
+      table
+        .timestamp('timestamp', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now())
+        .index();
+    });
+  }
 
-  await knex.schema.createTable('insights_aggregations', table => {
-    table.string('key').notNullable();
-    table.string('period').notNullable();
-    table.integer('count').notNullable().defaultTo(0);
-    table.timestamp('period_start', { useTz: true }).notNullable();
-    table.primary(['key', 'period', 'period_start']);
-  });
+  if (!(await knex.schema.hasTable('insights_aggregations'))) {
+    await knex.schema.createTable('insights_aggregations', table => {
+      table.string('key').notNullable();
+      table.string('period').notNullable();
+      table.integer('count').notNullable().defaultTo(0);
+      table.timestamp('period_start', { useTz: true }).notNullable();
+      table.primary(['key', 'period', 'period_start']);
+    });
+  }
 };
 
 /**

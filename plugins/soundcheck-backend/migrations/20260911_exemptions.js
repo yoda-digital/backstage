@@ -20,23 +20,25 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('soundcheck_exemptions', table => {
-    table.string('id').primary().notNullable();
-    table
-      .string('check_id')
-      .notNullable()
-      .references('id')
-      .inTable('soundcheck_checks');
-    table.string('entity_ref').notNullable();
-    table.text('reason').notNullable();
-    table.string('granted_by').notNullable();
-    table.timestamp('granted_at').notNullable().defaultTo(knex.fn.now());
-    table.timestamp('revoked_at').nullable();
-    table.string('revoked_by').nullable();
-    table.string('status').notNullable().defaultTo('active');
-    table.index(['check_id', 'entity_ref']);
-    table.index(['status']);
-  });
+  if (!(await knex.schema.hasTable('soundcheck_exemptions'))) {
+    await knex.schema.createTable('soundcheck_exemptions', table => {
+      table.string('id').primary().notNullable();
+      table
+        .string('check_id')
+        .notNullable()
+        .references('id')
+        .inTable('soundcheck_checks');
+      table.string('entity_ref').notNullable();
+      table.text('reason').notNullable();
+      table.string('granted_by').notNullable();
+      table.timestamp('granted_at').notNullable().defaultTo(knex.fn.now());
+      table.timestamp('revoked_at').nullable();
+      table.string('revoked_by').nullable();
+      table.string('status').notNullable().defaultTo('active');
+      table.index(['check_id', 'entity_ref']);
+      table.index(['status']);
+    });
+  }
 };
 
 /**

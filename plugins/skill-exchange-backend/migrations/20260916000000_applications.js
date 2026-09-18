@@ -20,22 +20,24 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('skill_applications', table => {
-    table.string('id').primary().notNullable();
-    table
-      .string('gig_id')
-      .notNullable()
-      .references('id')
-      .inTable('skill_gigs')
-      .index();
-    table.string('applicant_ref').notNullable().index();
-    table.text('message');
-    table.string('status').notNullable().defaultTo('pending');
-    table
-      .timestamp('created_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('skill_applications'))) {
+    await knex.schema.createTable('skill_applications', table => {
+      table.string('id').primary().notNullable();
+      table
+        .string('gig_id')
+        .notNullable()
+        .references('id')
+        .inTable('skill_gigs')
+        .index();
+      table.string('applicant_ref').notNullable().index();
+      table.text('message');
+      table.string('status').notNullable().defaultTo('pending');
+      table
+        .timestamp('created_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 };
 
 /**

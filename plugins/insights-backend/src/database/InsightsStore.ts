@@ -39,6 +39,7 @@ export class InsightsStore {
   static async create(options: { database: Knex }): Promise<InsightsStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_insights',
     });
     return new InsightsStore(options.database);
   }

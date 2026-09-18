@@ -34,6 +34,7 @@ export class AuditStore {
   static async create(options: { database: Knex }): Promise<AuditStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_audit_log',
     });
     return new AuditStore(options.database);
   }

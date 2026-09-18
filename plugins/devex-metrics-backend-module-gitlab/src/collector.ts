@@ -52,8 +52,8 @@ export class GitLabMetricCollector implements MetricCollector {
     from: string;
     to: string;
   }): Promise<MetricDataPoint[]> {
-    const host = this.config.getOptionalString('integrations.gitlab[0].host');
-    const token = this.config.getOptionalString('integrations.gitlab[0].token');
+    const host = this.config.getOptionalConfigArray('integrations.gitlab')?.[0]?.getOptionalString('host');
+    const token = this.config.getOptionalConfigArray('integrations.gitlab')?.[0]?.getOptionalString('token');
     if (!host || !token) {
       this.logger.warn(
         'No GitLab integration configured, skipping metric collection',

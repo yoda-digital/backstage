@@ -42,6 +42,7 @@ export class DatasetStore {
   static async create(options: { database: Knex }): Promise<DatasetStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_data_experience',
     });
     return new DatasetStore(options.database);
   }

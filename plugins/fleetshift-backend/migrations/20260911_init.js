@@ -20,40 +20,44 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('fleetshift_shifts', table => {
-    table.string('id').primary().notNullable();
-    table.string('title').notNullable();
-    table.text('description').defaultTo('');
-    table.text('transformation').notNullable();
-    table.jsonb('targets').notNullable();
-    table.string('status').notNullable().defaultTo('created');
-    table.jsonb('plan');
-    table.string('created_by').notNullable();
-    table
-      .timestamp('created_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-    table
-      .timestamp('updated_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('fleetshift_shifts'))) {
+    await knex.schema.createTable('fleetshift_shifts', table => {
+      table.string('id').primary().notNullable();
+      table.string('title').notNullable();
+      table.text('description').defaultTo('');
+      table.text('transformation').notNullable();
+      table.jsonb('targets').notNullable();
+      table.string('status').notNullable().defaultTo('created');
+      table.jsonb('plan');
+      table.string('created_by').notNullable();
+      table
+        .timestamp('created_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table
+        .timestamp('updated_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 
-  await knex.schema.createTable('fleetshift_executions', table => {
-    table.increments('id').primary();
-    table
-      .string('shift_id')
-      .notNullable()
-      .references('id')
-      .inTable('fleetshift_shifts')
-      .onDelete('CASCADE');
-    table.string('target_repo_url').notNullable();
-    table.string('status').notNullable().defaultTo('pending');
-    table.string('mr_url');
-    table.text('error');
-    table.timestamp('started_at', { useTz: true });
-    table.timestamp('completed_at', { useTz: true });
-  });
+  if (!(await knex.schema.hasTable('fleetshift_executions'))) {
+    await knex.schema.createTable('fleetshift_executions', table => {
+      table.increments('id').primary();
+      table
+        .string('shift_id')
+        .notNullable()
+        .references('id')
+        .inTable('fleetshift_shifts')
+        .onDelete('CASCADE');
+      table.string('target_repo_url').notNullable();
+      table.string('status').notNullable().defaultTo('pending');
+      table.string('mr_url');
+      table.text('error');
+      table.timestamp('started_at', { useTz: true });
+      table.timestamp('completed_at', { useTz: true });
+    });
+  }
 };
 
 /**

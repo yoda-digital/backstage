@@ -3,11 +3,12 @@ app:
   baseUrl: ${PORTAL_BASE_URL}
 
 organization:
-  name: DevPane
+  name: Esempla
 
 backend:
   baseUrl: ${BACKEND_BASE_URL}
   listen:
+    host: 0.0.0.0
     port: 7007
   database:
     client: pg
@@ -17,7 +18,7 @@ backend:
       user: ${POSTGRES_USER}
       password: ${POSTGRES_PASSWORD}
   auth:
-    dangerouslyDisableDefaultAuthPolicy: false
+    dangerouslyDisableDefaultAuthPolicy: true
   cors:
     origin: ${PORTAL_BASE_URL}
     methods: [GET, HEAD, PATCH, POST, PUT, DELETE]
@@ -25,25 +26,25 @@ backend:
 
 integrations:
   gitlab:
-    - host: git.example.com
-      apiBaseUrl: https://git.example.com/api/v4
+    - host: git.esempla.systems
+      apiBaseUrl: https://git.esempla.systems/api/v4
       token: ${GITLAB_TOKEN}
-  azure:
-    - host: dev.azure.com
-      token: ${AZURE_TOKEN}
 
 auth:
   environment: production
   providers:
-    gitlab:
-      production:
-        clientId: ${AUTH_GITLAB_CLIENT_ID}
-        clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
-        audience: https://git.example.com
-        callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
-        signIn:
-          resolvers:
-            - resolver: usernameMatchingUserEntityName
+    guest:
+      dangerouslyAllowOutsideDevelopment: true
+    # GitLab OAuth — uncomment when Dumitru creates the app
+    # gitlab:
+    #   production:
+    #     clientId: ${AUTH_GITLAB_CLIENT_ID}
+    #     clientSecret: ${AUTH_GITLAB_CLIENT_SECRET}
+    #     audience: https://git.esempla.systems
+    #     callbackUrl: ${BACKEND_BASE_URL}/api/auth/gitlab/handler/frame
+    #     signIn:
+    #       resolvers:
+    #         - resolver: usernameMatchingUserEntityName
 
 catalog:
   import:
@@ -62,8 +63,8 @@ catalog:
         - User
   providers:
     gitlab:
-      default:
-        host: git.example.com
+      esempla:
+        host: git.esempla.systems
         branch: main
         fallbackBranch: master
         skipForkedRepos: false
@@ -71,8 +72,8 @@ catalog:
           frequency: { minutes: 10 }
           timeout: { minutes: 3 }
     gitlabOrg:
-      default:
-        host: git.example.com
+      esempla:
+        host: git.esempla.systems
         schedule:
           frequency: { minutes: 30 }
           timeout: { minutes: 3 }
@@ -88,13 +89,39 @@ search:
 permission:
   enabled: true
 
+# Required by kubernetes-backend even when no clusters configured
 kubernetes:
-  clusterLocatorMethods:
-    - type: config
-      clusters:
-        - name: ${K8S_CLUSTER_NAME}
-          url: ${K8S_CLUSTER_URL}
-          authProvider: serviceAccount
-          serviceAccountToken: ${K8S_SERVICE_ACCOUNT_TOKEN}
-          skipTLSVerify: false
-          skipMetricsLookup: false
+  serviceLocatorMethod:
+    type: multiTenant
+  clusterLocatorMethods: []
+
+backend:
+  csp:
+    connect-src: ["'self'", "http:", "https:"]
+    script-src: ["'self'", "'unsafe-eval'", "https://static.cloudflareinsights.com"]
+
+# AI Gateway — Ollama on host
+aiGateway:
+  providers:
+    ollama:
+      baseUrl: http://host.docker.internal:11434
+      defaultModel: qwen3-8b-shared
+      models:
+        - id: qwen3-8b-shared
+          name: Qwen3 8B
+          capabilities: [chat, completion]
+        - id: qwen38-27b-shared
+          name: Qwen3.8 27B
+          capabilities: [chat, completion]
+
+# AI Assistant — use Ollama via gateway
+aiAssistant:
+  defaultModel: qwen3-8b-shared
+  gateway:
+    baseUrl: http://localhost:7007/api/ai-gateway
+
+# Embeddings for RAG
+aiEmbeddings:
+  provider: ollama
+  model: bge-m3
+  baseUrl: http://host.docker.internal:11434

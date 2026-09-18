@@ -20,15 +20,17 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('audit_events', table => {
-    table.string('id', 255).primary().notNullable();
-    table.string('action', 255).notNullable().index();
-    table.string('actor', 255).notNullable().index();
-    table.string('entity_ref', 255).nullable().index();
-    table.jsonb('metadata').notNullable().defaultTo('{}');
-    table.timestamp('timestamp').notNullable().index();
-    table.string('status', 32).notNullable().defaultTo('succeeded');
-  });
+  if (!(await knex.schema.hasTable('audit_events'))) {
+    await knex.schema.createTable('audit_events', table => {
+      table.string('id', 255).primary().notNullable();
+      table.string('action', 255).notNullable().index();
+      table.string('actor', 255).notNullable().index();
+      table.string('entity_ref', 255).nullable().index();
+      table.jsonb('metadata').notNullable().defaultTo('{}');
+      table.timestamp('timestamp').notNullable().index();
+      table.string('status', 32).notNullable().defaultTo('succeeded');
+    });
+  }
 };
 
 /**

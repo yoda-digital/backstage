@@ -84,7 +84,7 @@ export const aiAssistantPlugin = createBackendPlugin({
         events,
       }) {
         const knex = await database.getClient();
-        await knex.migrate.latest({ directory: migrationsDir });
+        await knex.migrate.latest({ directory: migrationsDir, tableName: 'knex_migrations_ai_assistant' });
 
         const conversationStore = new ConversationStore(knex);
         const modeRegistry = new ModeRegistry(config);

@@ -87,6 +87,7 @@ export class GigStore {
   static async create(options: { database: Knex }): Promise<GigStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_skill_exchange',
     });
     return new GigStore(options.database);
   }

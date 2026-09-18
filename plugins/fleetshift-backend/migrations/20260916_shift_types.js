@@ -33,22 +33,24 @@ exports.up = async function up(knex) {
     table.jsonb('diff');
   });
 
-  await knex.schema.createTable('fleetshift_logs', table => {
-    table.increments('id').primary();
-    table
-      .string('shift_id')
-      .notNullable()
-      .references('id')
-      .inTable('fleetshift_shifts')
-      .onDelete('CASCADE');
-    table.integer('target_index').notNullable();
-    table.string('level').notNullable().defaultTo('info');
-    table.text('message').notNullable();
-    table
-      .timestamp('created_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('fleetshift_logs'))) {
+    await knex.schema.createTable('fleetshift_logs', table => {
+      table.increments('id').primary();
+      table
+        .string('shift_id')
+        .notNullable()
+        .references('id')
+        .inTable('fleetshift_shifts')
+        .onDelete('CASCADE');
+      table.integer('target_index').notNullable();
+      table.string('level').notNullable().defaultTo('info');
+      table.text('message').notNullable();
+      table
+        .timestamp('created_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 };
 
 /**

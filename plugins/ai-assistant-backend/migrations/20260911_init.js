@@ -20,40 +20,44 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('ai_assistant_conversations', table => {
-    table.uuid('id').primary().defaultTo(knex.fn.uuid());
-    table.string('title').notNullable();
-    table.string('mode_id').notNullable();
-    table.string('user_entity_ref').notNullable();
-    table
-      .timestamp('created_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table
-      .timestamp('updated_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table.index(['user_entity_ref']);
-    table.index(['mode_id']);
-  });
+  if (!(await knex.schema.hasTable('ai_assistant_conversations'))) {
+    await knex.schema.createTable('ai_assistant_conversations', table => {
+      table.uuid('id').primary().defaultTo(knex.fn.uuid());
+      table.string('title').notNullable();
+      table.string('mode_id').notNullable();
+      table.string('user_entity_ref').notNullable();
+      table
+        .timestamp('created_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table
+        .timestamp('updated_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table.index(['user_entity_ref']);
+      table.index(['mode_id']);
+    });
+  }
 
-  await knex.schema.createTable('ai_assistant_messages', table => {
-    table.uuid('id').primary().defaultTo(knex.fn.uuid());
-    table
-      .uuid('conversation_id')
-      .notNullable()
-      .references('id')
-      .inTable('ai_assistant_conversations')
-      .onDelete('CASCADE');
-    table.string('role').notNullable();
-    table.text('content').notNullable();
-    table.text('sources').nullable();
-    table
-      .timestamp('created_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table.index(['conversation_id']);
-  });
+  if (!(await knex.schema.hasTable('ai_assistant_messages'))) {
+    await knex.schema.createTable('ai_assistant_messages', table => {
+      table.uuid('id').primary().defaultTo(knex.fn.uuid());
+      table
+        .uuid('conversation_id')
+        .notNullable()
+        .references('id')
+        .inTable('ai_assistant_conversations')
+        .onDelete('CASCADE');
+      table.string('role').notNullable();
+      table.text('content').notNullable();
+      table.text('sources').nullable();
+      table
+        .timestamp('created_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table.index(['conversation_id']);
+    });
+  }
 };
 
 /**

@@ -33,6 +33,7 @@ export class OverlayStore {
   static async create(options: { database: Knex }): Promise<OverlayStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+      tableName: 'knex_migrations_entity_overlays',
     });
     return new OverlayStore(options.database);
   }

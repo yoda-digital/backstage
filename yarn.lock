@@ -5411,7 +5411,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-bigquery@workspace:plugins/soundcheck-backend-module-bigquery":
+"@backstage/plugin-soundcheck-backend-module-bigquery@workspace:^, @backstage/plugin-soundcheck-backend-module-bigquery@workspace:plugins/soundcheck-backend-module-bigquery":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-bigquery@workspace:plugins/soundcheck-backend-module-bigquery"
   dependencies:
@@ -5423,7 +5423,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-catalog@workspace:plugins/soundcheck-backend-module-catalog":
+"@backstage/plugin-soundcheck-backend-module-catalog@workspace:^, @backstage/plugin-soundcheck-backend-module-catalog@workspace:plugins/soundcheck-backend-module-catalog":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-catalog@workspace:plugins/soundcheck-backend-module-catalog"
   dependencies:
@@ -5435,7 +5435,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-datadog@workspace:plugins/soundcheck-backend-module-datadog":
+"@backstage/plugin-soundcheck-backend-module-datadog@workspace:^, @backstage/plugin-soundcheck-backend-module-datadog@workspace:plugins/soundcheck-backend-module-datadog":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-datadog@workspace:plugins/soundcheck-backend-module-datadog"
   dependencies:
@@ -5473,7 +5473,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-jhelp@workspace:plugins/soundcheck-backend-module-jhelp":
+"@backstage/plugin-soundcheck-backend-module-jhelp@workspace:^, @backstage/plugin-soundcheck-backend-module-jhelp@workspace:plugins/soundcheck-backend-module-jhelp":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-jhelp@workspace:plugins/soundcheck-backend-module-jhelp"
   dependencies:
@@ -5509,7 +5509,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-newrelic@workspace:plugins/soundcheck-backend-module-newrelic":
+"@backstage/plugin-soundcheck-backend-module-newrelic@workspace:^, @backstage/plugin-soundcheck-backend-module-newrelic@workspace:plugins/soundcheck-backend-module-newrelic":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-newrelic@workspace:plugins/soundcheck-backend-module-newrelic"
   dependencies:
@@ -5521,7 +5521,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-pagerduty@workspace:plugins/soundcheck-backend-module-pagerduty":
+"@backstage/plugin-soundcheck-backend-module-pagerduty@workspace:^, @backstage/plugin-soundcheck-backend-module-pagerduty@workspace:plugins/soundcheck-backend-module-pagerduty":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-pagerduty@workspace:plugins/soundcheck-backend-module-pagerduty"
   dependencies:
@@ -5547,7 +5547,7 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-soundcheck-backend-module-snyk@workspace:plugins/soundcheck-backend-module-snyk":
+"@backstage/plugin-soundcheck-backend-module-snyk@workspace:^, @backstage/plugin-soundcheck-backend-module-snyk@workspace:plugins/soundcheck-backend-module-snyk":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-soundcheck-backend-module-snyk@workspace:plugins/soundcheck-backend-module-snyk"
   dependencies:
@@ -15720,11 +15720,18 @@ __metadata:
     "@backstage/plugin-skill-exchange-backend": "workspace:^"
     "@backstage/plugin-soundcheck-backend": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-azure-devops": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-bigquery": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-catalog": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-datadog": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-gitlab": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-http": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-jhelp": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-jira": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-kubernetes": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-newrelic": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-pagerduty": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-scm": "workspace:^"
+    "@backstage/plugin-soundcheck-backend-module-snyk": "workspace:^"
     "@backstage/plugin-soundcheck-backend-module-sonarqube": "workspace:^"
     "@backstage/plugin-techdocs-backend": "npm:^2.3.0"
     "@backstage/plugin-user-settings-backend": "npm:^0.4.7"

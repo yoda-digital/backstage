@@ -53,6 +53,7 @@ export class AccessRequestStore {
   }): Promise<AccessRequestStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_data_exp_access',
     });
     return new AccessRequestStore(options.database);
   }

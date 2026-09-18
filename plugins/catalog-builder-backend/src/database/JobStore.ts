@@ -76,6 +76,7 @@ export class JobStore {
   static async create(options: { database: Knex }): Promise<JobStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_catalog_builder',
     });
     return new JobStore(options.database);
   }

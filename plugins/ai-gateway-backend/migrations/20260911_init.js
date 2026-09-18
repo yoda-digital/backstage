@@ -20,21 +20,23 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('ai_gateway_usage', table => {
-    table.uuid('id').primary().defaultTo(knex.fn.uuid());
-    table.string('provider_id').notNullable();
-    table.string('model_id').notNullable();
-    table.string('user_entity_ref').notNullable();
-    table.integer('prompt_tokens').notNullable();
-    table.integer('completion_tokens').notNullable();
-    table
-      .timestamp('created_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table.index(['provider_id']);
-    table.index(['user_entity_ref']);
-    table.index(['created_at']);
-  });
+  if (!(await knex.schema.hasTable('ai_gateway_usage'))) {
+    await knex.schema.createTable('ai_gateway_usage', table => {
+      table.uuid('id').primary().defaultTo(knex.fn.uuid());
+      table.string('provider_id').notNullable();
+      table.string('model_id').notNullable();
+      table.string('user_entity_ref').notNullable();
+      table.integer('prompt_tokens').notNullable();
+      table.integer('completion_tokens').notNullable();
+      table
+        .timestamp('created_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table.index(['provider_id']);
+      table.index(['user_entity_ref']);
+      table.index(['created_at']);
+    });
+  }
 };
 
 /**

@@ -20,17 +20,19 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('data_exp_metadata', table => {
-    table.string('entity_ref', 512).primary().notNullable();
-    table.jsonb('columns').notNullable().defaultTo('[]');
-    table.bigInteger('row_count');
-    table.bigInteger('size_bytes');
-    table.timestamp('last_updated', { useTz: true });
-    table
-      .timestamp('collected_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('data_exp_metadata'))) {
+    await knex.schema.createTable('data_exp_metadata', table => {
+      table.string('entity_ref', 512).primary().notNullable();
+      table.jsonb('columns').notNullable().defaultTo('[]');
+      table.bigInteger('row_count');
+      table.bigInteger('size_bytes');
+      table.timestamp('last_updated', { useTz: true });
+      table
+        .timestamp('collected_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 };
 
 /**

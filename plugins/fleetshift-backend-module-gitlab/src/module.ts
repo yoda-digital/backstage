@@ -39,10 +39,10 @@ export const fleetshiftModuleGitlabProvider = createBackendModule({
       async init({ config, logger, providers }) {
         const host =
           config.getOptionalString('fleetshift.providers.gitlab.host') ??
-          config.getOptionalString('integrations.gitlab[0].host');
+          config.getOptionalConfigArray('integrations.gitlab')?.[0]?.getOptionalString('host');
         const token =
           config.getOptionalString('fleetshift.providers.gitlab.token') ??
-          config.getOptionalString('integrations.gitlab[0].token');
+          config.getOptionalConfigArray('integrations.gitlab')?.[0]?.getOptionalString('token');
 
         if (!host || !token) {
           logger.info(

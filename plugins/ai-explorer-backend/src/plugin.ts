@@ -50,7 +50,7 @@ export const aiExplorerPlugin = createBackendPlugin({
       },
       async init({ config, logger, database, httpRouter, httpAuth, events }) {
         const knex = await database.getClient();
-        await knex.migrate.latest({ directory: migrationsDir });
+        await knex.migrate.latest({ directory: migrationsDir, tableName: 'knex_migrations_ai_explorer' });
 
         const ruleStore = new RuleStore(knex);
         const skillStore = new SkillStore(knex);

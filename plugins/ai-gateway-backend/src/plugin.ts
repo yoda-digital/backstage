@@ -63,7 +63,7 @@ export const aiGatewayPlugin = createBackendPlugin({
         events,
       }) {
         const knex = await database.getClient();
-        await knex.migrate.latest({ directory: migrationsDir });
+        await knex.migrate.latest({ directory: migrationsDir, tableName: 'knex_migrations_ai_gateway' });
 
         const usageTracker = new UsageTracker(knex);
 

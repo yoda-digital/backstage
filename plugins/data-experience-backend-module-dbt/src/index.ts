@@ -14,15 +14,5 @@
  * limitations under the License.
  */
 
-/**
- * A Data Experience backend module that adds a dbt connector and lineage
- * processor.
- *
- * @packageDocumentation
- */
-
 export { dataExperienceModuleDbt as default } from './module';
-export { DbtConnector } from './connector/DbtConnector';
-export { DbtLineageProcessor } from './processor/DbtLineageProcessor';
-export { DbtManifest } from './manifest/DbtManifest';
-export type { DbtNode } from './manifest/DbtManifest';
+export { catalogModuleDbtLineage } from './module';

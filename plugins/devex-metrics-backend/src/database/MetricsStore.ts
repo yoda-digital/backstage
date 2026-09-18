@@ -35,6 +35,7 @@ export class MetricsStore {
   static async create(options: { database: Knex }): Promise<MetricsStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_devex_metrics',
     });
     return new MetricsStore(options.database);
   }

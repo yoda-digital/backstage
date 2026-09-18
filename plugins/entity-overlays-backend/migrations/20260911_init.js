@@ -20,15 +20,17 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('entity_overlays', table => {
-    table.string('entity_ref', 512).primary().notNullable();
-    table.jsonb('patches').notNullable().defaultTo('[]');
-    table.string('updated_by', 255).notNullable();
-    table
-      .timestamp('updated_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('entity_overlays'))) {
+    await knex.schema.createTable('entity_overlays', table => {
+      table.string('entity_ref', 512).primary().notNullable();
+      table.jsonb('patches').notNullable().defaultTo('[]');
+      table.string('updated_by', 255).notNullable();
+      table
+        .timestamp('updated_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 };
 
 /**

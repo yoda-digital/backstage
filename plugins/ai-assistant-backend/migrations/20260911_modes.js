@@ -20,31 +20,33 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('ai_modes', table => {
-    table.uuid('id').primary().defaultTo(knex.fn.uuid());
-    table.string('name').notNullable();
-    table.text('description').notNullable();
-    table.text('instructions').notNullable();
-    table.string('visibility').notNullable().defaultTo('private');
-    table.string('owner_ref').notNullable();
-    table.jsonb('processors').notNullable().defaultTo('[]');
-    table.jsonb('mcp_tools').nullable();
-    table.string('model_override').nullable();
-    table.integer('max_steps').nullable();
-    table.float('temperature').nullable();
-    table.integer('usage_count_30d').notNullable().defaultTo(0);
-    table
-      .timestamp('created_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table
-      .timestamp('updated_at', { useTz: true })
-      .defaultTo(knex.fn.now())
-      .notNullable();
-    table.index(['owner_ref']);
-    table.index(['visibility']);
-    table.index(['usage_count_30d']);
-  });
+  if (!(await knex.schema.hasTable('ai_modes'))) {
+    await knex.schema.createTable('ai_modes', table => {
+      table.uuid('id').primary().defaultTo(knex.fn.uuid());
+      table.string('name').notNullable();
+      table.text('description').notNullable();
+      table.text('instructions').notNullable();
+      table.string('visibility').notNullable().defaultTo('private');
+      table.string('owner_ref').notNullable();
+      table.jsonb('processors').notNullable().defaultTo('[]');
+      table.jsonb('mcp_tools').nullable();
+      table.string('model_override').nullable();
+      table.integer('max_steps').nullable();
+      table.float('temperature').nullable();
+      table.integer('usage_count_30d').notNullable().defaultTo(0);
+      table
+        .timestamp('created_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table
+        .timestamp('updated_at', { useTz: true })
+        .defaultTo(knex.fn.now())
+        .notNullable();
+      table.index(['owner_ref']);
+      table.index(['visibility']);
+      table.index(['usage_count_30d']);
+    });
+  }
 };
 
 /**

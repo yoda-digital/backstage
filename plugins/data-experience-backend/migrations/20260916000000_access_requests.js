@@ -20,19 +20,21 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('data_access_requests', table => {
-    table.string('id', 64).primary().notNullable();
-    table.string('dataset_ref', 512).notNullable().index();
-    table.string('requester_ref', 512).notNullable().index();
-    table.text('use_case').notNullable();
-    table.string('status', 16).notNullable().defaultTo('pending');
-    table.jsonb('conversation').notNullable().defaultTo('[]');
-    table
-      .timestamp('created_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-    table.timestamp('resolved_at', { useTz: true });
-  });
+  if (!(await knex.schema.hasTable('data_access_requests'))) {
+    await knex.schema.createTable('data_access_requests', table => {
+      table.string('id', 64).primary().notNullable();
+      table.string('dataset_ref', 512).notNullable().index();
+      table.string('requester_ref', 512).notNullable().index();
+      table.text('use_case').notNullable();
+      table.string('status', 16).notNullable().defaultTo('pending');
+      table.jsonb('conversation').notNullable().defaultTo('[]');
+      table
+        .timestamp('created_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table.timestamp('resolved_at', { useTz: true });
+    });
+  }
 };
 
 /**

@@ -106,6 +106,7 @@ export class ShiftStore {
   static async create(options: { database: Knex }): Promise<ShiftStore> {
     await options.database.migrate.latest({
       directory: migrationsDir,
+    tableName: 'knex_migrations_fleetshift',
     });
     return new ShiftStore(options.database);
   }

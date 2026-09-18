@@ -1,15 +1,13 @@
-version: '3.8'
-
 services:
   postgres:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-backstage}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-DevPane2026!}
       POSTGRES_DB: ${POSTGRES_DB:-backstage}
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - pgdata:/var/lib/postgresql/data
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U ${POSTGRES_USER:-backstage}']
       interval: 10s
@@ -22,28 +20,18 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     environment:
       POSTGRES_HOST: postgres
-      POSTGRES_PORT: 5432
+      POSTGRES_PORT: "5432"
       POSTGRES_USER: ${POSTGRES_USER:-backstage}
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in .env}
-      # Set these in .env for your deployment:
-      PORTAL_BASE_URL: ${PORTAL_BASE_URL:-http://localhost:7007}
-      BACKEND_BASE_URL: ${BACKEND_BASE_URL:-http://localhost:7007}
-      # GitLab integration (set in .env)
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-DevPane2026!}
+      PORTAL_BASE_URL: ${PORTAL_BASE_URL:-https://ai.esemplagov.tech}
+      BACKEND_BASE_URL: ${BACKEND_BASE_URL:-https://ai.esemplagov.tech}
       GITLAB_TOKEN: ${GITLAB_TOKEN:-}
-      AUTH_GITLAB_CLIENT_ID: ${AUTH_GITLAB_CLIENT_ID:-}
-      AUTH_GITLAB_CLIENT_SECRET: ${AUTH_GITLAB_CLIENT_SECRET:-}
-      # Azure DevOps (set in .env)
-      AZURE_TOKEN: ${AZURE_TOKEN:-}
-      # Kubernetes (set in .env)
-      K8S_CLUSTER_NAME: ${K8S_CLUSTER_NAME:-}
-      K8S_CLUSTER_URL: ${K8S_CLUSTER_URL:-}
-      K8S_SERVICE_ACCOUNT_TOKEN: ${K8S_SERVICE_ACCOUNT_TOKEN:-}
-    # No ports exposed — Cloudflare Tunnel handles ingress
-    # Uncomment for local testing without tunnel:
-    # ports:
-    #   - '7007:7007'
+      GROWTHBOOK_API_URL: ${GROWTHBOOK_API_URL:-http://localhost:3100}
+      GROWTHBOOK_API_KEY: ${GROWTHBOOK_API_KEY:-not-configured}
 
   cloudflared:
     image: cloudflare/cloudflared:latest
@@ -52,7 +40,7 @@ services:
       - backstage
     command: tunnel run
     environment:
-      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN:?Set CLOUDFLARE_TUNNEL_TOKEN in .env}
+      TUNNEL_TOKEN: ${CLOUDFLARE_TUNNEL_TOKEN}
 
 volumes:
-  postgres_data:
+  pgdata:

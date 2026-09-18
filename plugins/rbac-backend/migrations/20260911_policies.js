@@ -20,30 +20,34 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('rbac_policies', table => {
-    table.string('id').primary().notNullable();
-    table.string('name').notNullable();
-    table.string('status').notNullable().defaultTo('draft');
-    table.string('strategy').notNullable().defaultTo('first-match');
-    // MySQL does not allow a literal default value on a JSON column, so
-    // `rules` is left without a database-level default; every write path
-    // in RbacStore always supplies it explicitly.
-    table.jsonb('rules').notNullable();
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-    table.timestamp('published_at').nullable();
-    table.index(['status']);
-  });
+  if (!(await knex.schema.hasTable('rbac_policies'))) {
+    await knex.schema.createTable('rbac_policies', table => {
+      table.string('id').primary().notNullable();
+      table.string('name').notNullable();
+      table.string('status').notNullable().defaultTo('draft');
+      table.string('strategy').notNullable().defaultTo('first-match');
+      // MySQL does not allow a literal default value on a JSON column, so
+      // `rules` is left without a database-level default; every write path
+      // in RbacStore always supplies it explicitly.
+      table.jsonb('rules').notNullable();
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
+      table.timestamp('published_at').nullable();
+      table.index(['status']);
+    });
+  }
 
-  await knex.schema.createTable('rbac_conditional_rules', table => {
-    table.string('id').primary().notNullable();
-    table.string('name').notNullable();
-    table.text('description').nullable();
-    table.string('resource_type').notNullable();
-    table.jsonb('params_schema').nullable();
-    table.string('plugin_id').notNullable();
-    table.unique(['plugin_id', 'name']);
-  });
+  if (!(await knex.schema.hasTable('rbac_conditional_rules'))) {
+    await knex.schema.createTable('rbac_conditional_rules', table => {
+      table.string('id').primary().notNullable();
+      table.string('name').notNullable();
+      table.text('description').nullable();
+      table.string('resource_type').notNullable();
+      table.jsonb('params_schema').nullable();
+      table.string('plugin_id').notNullable();
+      table.unique(['plugin_id', 'name']);
+    });
+  }
 
   await knex.schema.alterTable('rbac_roles', table => {
     table

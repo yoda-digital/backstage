@@ -20,38 +20,42 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('rbac_roles', table => {
-    table.string('name').primary().notNullable();
-    table.string('description').notNullable().defaultTo('');
-    table.text('permissions').notNullable().defaultTo('[]');
-    table.text('metadata').notNullable().defaultTo('{}');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.timestamp('updated_at').defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('rbac_roles'))) {
+    await knex.schema.createTable('rbac_roles', table => {
+      table.string('name').primary().notNullable();
+      table.string('description').notNullable().defaultTo('');
+      table.text('permissions').notNullable().defaultTo('[]');
+      table.text('metadata').notNullable().defaultTo('{}');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.timestamp('updated_at').defaultTo(knex.fn.now());
+    });
+  }
 
-  await knex.schema.createTable('rbac_bindings', table => {
-    table.string('id').primary().notNullable();
-    table
-      .string('role')
-      .notNullable()
-      .references('name')
-      .inTable('rbac_roles')
-      .onDelete('CASCADE');
-    // These three columns are kept deliberately short (rather than the
-    // default 255) so that their combined length, together with `role`,
-    // stays within MySQL's 3072-byte limit for a composite unique index
-    // once encoded as utf8mb4.
-    table.string('subject_kind', 16).notNullable();
-    table.string('subject_name', 191).notNullable();
-    table.string('subject_namespace', 64).defaultTo('default');
-    table.timestamp('created_at').defaultTo(knex.fn.now());
-    table.unique(
-      ['role', 'subject_kind', 'subject_name', 'subject_namespace'],
-      {
-        indexName: 'rbac_bindings_subject_unique',
-      },
-    );
-  });
+  if (!(await knex.schema.hasTable('rbac_bindings'))) {
+    await knex.schema.createTable('rbac_bindings', table => {
+      table.string('id').primary().notNullable();
+      table
+        .string('role')
+        .notNullable()
+        .references('name')
+        .inTable('rbac_roles')
+        .onDelete('CASCADE');
+      // These three columns are kept deliberately short (rather than the
+      // default 255) so that their combined length, together with `role`,
+      // stays within MySQL's 3072-byte limit for a composite unique index
+      // once encoded as utf8mb4.
+      table.string('subject_kind', 16).notNullable();
+      table.string('subject_name', 191).notNullable();
+      table.string('subject_namespace', 64).defaultTo('default');
+      table.timestamp('created_at').defaultTo(knex.fn.now());
+      table.unique(
+        ['role', 'subject_kind', 'subject_name', 'subject_namespace'],
+        {
+          indexName: 'rbac_bindings_subject_unique',
+        },
+      );
+    });
+  }
 };
 
 /**

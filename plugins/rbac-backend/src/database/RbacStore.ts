@@ -61,7 +61,7 @@ export class RbacStore {
     database: DatabaseService;
   }): Promise<RbacStore> {
     const client = await options.database.getClient();
-    await client.migrate.latest({ directory: migrationsDir });
+    await client.migrate.latest({ directory: migrationsDir, tableName: 'knex_migrations_rbac' });
     return new RbacStore(client);
   }
 

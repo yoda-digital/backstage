@@ -25,11 +25,7 @@ import { DbtManifest } from './manifest/DbtManifest';
 import { DbtLineageProcessor } from './processor/DbtLineageProcessor';
 
 /**
- * A Data Experience backend module that registers a {@link DbtConnector},
- * importing dbt models and sources as Dataset entities, and a
- * {@link DbtLineageProcessor} that links those datasets to their upstream
- * dependencies from the dbt manifest's `depends_on` graph.
- *
+ * Data Experience module that registers the dbt warehouse connector.
  * @public
  */
 export const dataExperienceModuleDbt = createBackendModule({
@@ -41,23 +37,48 @@ export const dataExperienceModuleDbt = createBackendModule({
         config: coreServices.rootConfig,
         logger: coreServices.logger,
         warehouse: dataExperienceWarehouseExtensionPoint,
-        catalog: catalogProcessingExtensionPoint,
       },
-      async init({ config, logger, warehouse, catalog }) {
+      async init({ config, logger, warehouse }) {
         if (!config.has('dataExperience.dbt')) {
           logger.info(
-            'No dataExperience.dbt configuration found, skipping dbt connector registration',
+            'No dataExperience.dbt configuration found, skipping dbt connector',
           );
           return;
         }
-
         const connector = DbtConnector.fromConfig(config, { logger });
         warehouse.addConnector(connector);
+        logger.info('Registered dbt warehouse connector');
+      },
+    });
+  },
+});
 
+/**
+ * Catalog module that registers the dbt lineage processor.
+ * Must be loaded separately because catalogProcessingExtensionPoint
+ * is scoped to pluginId 'catalog'.
+ * @public
+ */
+export const catalogModuleDbtLineage = createBackendModule({
+  pluginId: 'catalog',
+  moduleId: 'dbt-lineage',
+  register(env) {
+    env.registerInit({
+      deps: {
+        config: coreServices.rootConfig,
+        logger: coreServices.logger,
+        catalog: catalogProcessingExtensionPoint,
+      },
+      async init({ config, logger, catalog }) {
+        if (!config.has('dataExperience.dbt')) {
+          logger.info(
+            'No dataExperience.dbt configuration found, skipping dbt lineage processor',
+          );
+          return;
+        }
         const manifest = await DbtManifest.fromConfig(config);
         catalog.addProcessor(new DbtLineageProcessor(manifest));
-
-        logger.info('Registered dbt warehouse connector and lineage processor');
+        logger.info('Registered dbt lineage processor');
       },
     });
   },

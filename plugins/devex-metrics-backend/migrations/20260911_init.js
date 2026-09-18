@@ -20,48 +20,54 @@
  * @param {import('knex').Knex} knex
  */
 exports.up = async function up(knex) {
-  await knex.schema.createTable('devex_metric_points', table => {
-    table.increments('id').primary();
-    table.string('metric').notNullable().index();
-    table.string('entity_ref').index();
-    table.string('team').index();
-    table.float('value').notNullable();
-    table.timestamp('date', { useTz: true }).notNullable().index();
-    table.string('source').notNullable();
-    table
-      .timestamp('collected_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('devex_metric_points'))) {
+    await knex.schema.createTable('devex_metric_points', table => {
+      table.increments('id').primary();
+      table.string('metric').notNullable().index();
+      table.string('entity_ref').index();
+      table.string('team').index();
+      table.float('value').notNullable();
+      table.timestamp('date', { useTz: true }).notNullable().index();
+      table.string('source').notNullable();
+      table
+        .timestamp('collected_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 
-  await knex.schema.createTable('devex_surveys', table => {
-    table.string('id').primary().notNullable();
-    table.string('title').notNullable();
-    table.text('description').defaultTo('');
-    table.jsonb('questions').notNullable();
-    table.boolean('active').notNullable().defaultTo(true);
-    table
-      .timestamp('created_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-  });
+  if (!(await knex.schema.hasTable('devex_surveys'))) {
+    await knex.schema.createTable('devex_surveys', table => {
+      table.string('id').primary().notNullable();
+      table.string('title').notNullable();
+      table.text('description').defaultTo('');
+      table.jsonb('questions').notNullable();
+      table.boolean('active').notNullable().defaultTo(true);
+      table
+        .timestamp('created_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+    });
+  }
 
-  await knex.schema.createTable('devex_survey_responses', table => {
-    table.increments('id').primary();
-    table
-      .string('survey_id')
-      .notNullable()
-      .references('id')
-      .inTable('devex_surveys')
-      .onDelete('CASCADE');
-    table.string('respondent').notNullable();
-    table.jsonb('answers').notNullable();
-    table
-      .timestamp('submitted_at', { useTz: true })
-      .notNullable()
-      .defaultTo(knex.fn.now());
-    table.unique(['survey_id', 'respondent']);
-  });
+  if (!(await knex.schema.hasTable('devex_survey_responses'))) {
+    await knex.schema.createTable('devex_survey_responses', table => {
+      table.increments('id').primary();
+      table
+        .string('survey_id')
+        .notNullable()
+        .references('id')
+        .inTable('devex_surveys')
+        .onDelete('CASCADE');
+      table.string('respondent').notNullable();
+      table.jsonb('answers').notNullable();
+      table
+        .timestamp('submitted_at', { useTz: true })
+        .notNullable()
+        .defaultTo(knex.fn.now());
+      table.unique(['survey_id', 'respondent']);
+    });
+  }
 };
 
 /**

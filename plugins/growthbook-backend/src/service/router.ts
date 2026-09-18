@@ -63,8 +63,8 @@ export function createRouter(options: RouterOptions) {
   const router = Router();
   router.use(express.json());
 
-  const apiUrl = config.getString('growthbook.apiUrl');
-  const apiKey = config.getString('growthbook.apiKey');
+  const apiUrl = config.getOptionalString('growthbook.apiUrl') ?? '';
+  const apiKey = config.getOptionalString('growthbook.apiKey') ?? '';
 
   async function proxy(
     path: string,
